@@ -1,17 +1,26 @@
-/* eslint-env node */
-require('@rushstack/eslint-patch/modern-module-resolution')
+import pluginVue from 'eslint-plugin-vue'
+import eslintConfigPrettier from "eslint-config-prettier";
 
-module.exports = {
+export default {
   root: true,
   extends: [
-    'plugin:vue/vue3-essential',
     'eslint:recommended',
-    '@vue/eslint-config-prettier/skip-formatting'
+    'plugin:vue/vue3-recommended',
+    eslintConfigPrettier,
+    ...pluginVue.configs['flat/recommended'],
   ],
   parserOptions: {
     ecmaVersion: 'latest'
   },
   plugins: ['prettier'],
+  overrides: [
+    {
+      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
+      env: {
+        jest: true,
+      },
+    },
+  ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-plusplus': 'off',
@@ -54,13 +63,13 @@ module.exports = {
         ],
       },
     ],
-  },
-  overrides: [
-    {
-      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
-      env: {
-        jest: true,
+    "vue/max-attributes-per-line": ["error", {
+      "singleline": {
+        "max": 3
       },
-    },
-  ],
+      "multiline": {
+        "max": 1
+      }
+    }]
+  }
 }
