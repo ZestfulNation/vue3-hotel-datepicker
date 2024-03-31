@@ -1,26 +1,26 @@
 <script setup>
-import PropsToBeDefined from "@/components/DatePickerDay/props";
-import DatePickerPrice from "@/components/DatePickerPrice";
-import helpers from "@/helpers";
-import { computed, inject, provide, ref, watch } from "vue";
-import { WEEKLY_BY_SATURDAY, WEEKLY_BY_SUNDAY, NIGHTLY, WEEKLY } from "@/constants/periodType";
-import { SATURDAY, SUNDAY } from "@/constants/days";
+import PropsToBeDefined from '@/components/DatePickerDay/props'
+import DatePickerPrice from '@/components/DatePickerPrice'
+import helpers from '@/helpers'
+import { computed, inject, provide, ref, watch } from 'vue'
+import { WEEKLY_BY_SATURDAY, WEEKLY_BY_SUNDAY, NIGHTLY, WEEKLY } from '@/constants/periodType'
+import { SATURDAY, SUNDAY } from '@/constants/days'
 
 // import BookingBullet from `@/components/BookingBullet`
 // import Price from `@/components/Price`
 
 const day = ref(null)
 const props = defineProps(PropsToBeDefined)
-const mainPrefix = inject('prefix', '');
-const prefix = mainPrefix + props.prefix;
-provide('dayprefix', prefix);
-const isDisabled = ref(false);
-const isHighlighted = ref(false);
-const emit = defineEmits(['booking-clicked', 'clear-selection', 'day-clicked', 'clear-selection']);
+const mainPrefix = inject('prefix', '')
+const prefix = mainPrefix + props.prefix
+provide('dayprefix', prefix)
+const isDisabled = ref(false)
+const isHighlighted = ref(false)
+const emit = defineEmits(['booking-clicked', 'clear-selection', 'day-clicked', 'clear-selection'])
 
 const formattedDate = computed(() => {
   return helpers.dateFormater(props.date, 'D')
-});
+})
 
 const previousBooking = computed(() => {
   let previousBookingValue = null
@@ -33,7 +33,7 @@ const previousBooking = computed(() => {
   }
 
   return previousBookingValue
-});
+})
 
 const currentBooking = computed(() => {
   return props.bookings.find(
@@ -42,11 +42,11 @@ const currentBooking = computed(() => {
       (!props.duplicateBookingDates.includes(formattedDate.value) &&
         helpers.validateDateBetweenTwoDates(booking.checkInDate, booking.checkOutDate, formattedDate.value)),
   )
-});
+})
 
 const dayNumber = computed(() => {
   return helpers.dateFormater(props.date, `D`)
-});
+})
 
 const dayPrice = computed(() => {
   let result = ``
@@ -55,7 +55,8 @@ const dayPrice = computed(() => {
     .find((d) => helpers.validateDateBetweenTwoDates(d.startAt, d.endAt, formattedDate.value))
 
   if (dayPriceCurrentDate && dayPriceCurrentDate.price) {
-    const priceIsNumeric = typeof dayPriceCurrentDate.price === `number` || !Number.isNaN(parseFloat(dayPriceCurrentDate.price))
+    const priceIsNumeric =
+      typeof dayPriceCurrentDate.price === `number` || !Number.isNaN(parseFloat(dayPriceCurrentDate.price))
     const weeklyPeriod = dayPriceCurrentDate.periodType !== NIGHTLY
 
     if (priceIsNumeric && weeklyPeriod) {
@@ -71,7 +72,7 @@ const dayPrice = computed(() => {
   }
 
   return String(result)
-});
+})
 
 const halfDayClass = computed(() => {
   if (Object.keys(props.checkIncheckOutHalfDay).length > 0) {
@@ -91,7 +92,7 @@ const halfDayClass = computed(() => {
   }
 
   return false
-});
+})
 
 const bookingClass = computed(() => {
   if (props.bookings.length > 0 && currentBooking.value) {
@@ -144,11 +145,11 @@ const bookingClass = computed(() => {
   }
 
   return ``
-});
+})
 
 const disabledClass = computed(() => {
   return isDisabled.value || isADisabledDay ? ` ${prefix}disabled ` : ``
-});
+})
 
 const dayClass = computed(() => {
   if (!props.belongsToThisMonth) {
@@ -258,7 +259,7 @@ const dayClass = computed(() => {
 
   // Good
   return `${prefix}valid`
-});
+})
 
 const notAllowedDayDueToNextPeriod = (currentPeriod) => {
   // Check if the next period is directly after the current period
@@ -286,7 +287,7 @@ const notAllowedDayDueToNextPeriod = (currentPeriod) => {
   }
 
   return false
-};
+}
 
 const notAllowDaysBetweenCheckInAndNextValidDate = (dayCode) =>
   props.checkIn &&
@@ -295,7 +296,7 @@ const notAllowDaysBetweenCheckInAndNextValidDate = (dayCode) =>
   Object.keys(props.hoveringPeriod).length > 0 &&
   helpers.validateDateBetweenTwoDates(props.checkIn, props.hoveringPeriod.nextValidDate, props.date) &&
   helpers.dateFormater(props.checkIn) !== formattedDate.value &&
-  helpers.dateFormater(props.hoveringPeriod.nextValidDate) !== formattedDate.value;
+  helpers.dateFormater(props.hoveringPeriod.nextValidDate) !== formattedDate.value
 
 const checkinCheckoutClass = computed(() => {
   let currentPeriod = null
@@ -303,7 +304,8 @@ const checkinCheckoutClass = computed(() => {
   props.sortedPeriodDates.forEach((d) => {
     if (
       d.endAt !== formattedDate.value &&
-      (d.startAt === formattedDate.value || helpers.validateDateBetweenTwoDates(d.startAt, d.endAt, formattedDate.value))
+      (d.startAt === formattedDate.value ||
+        helpers.validateDateBetweenTwoDates(d.startAt, d.endAt, formattedDate.value))
     ) {
       currentPeriod = d
     }
@@ -360,7 +362,7 @@ const checkinCheckoutClass = computed(() => {
   }
 
   return ``
-});
+})
 
 const tabIndex = computed(() => {
   if (!props.isOpen || !props.belongsToThisMonth || isDisabled.value || !isClickable) {
@@ -368,11 +370,11 @@ const tabIndex = computed(() => {
   }
 
   return 0
-});
+})
 
 const nightsCount = computed(() => {
   return helpers.countDays(props.checkIn, props.hoveringDate)
-});
+})
 
 const tooltipMessageDisplay = computed(() => {
   const dateIsInPeriod = helpers.validateDateBetweenTwoDates(
@@ -405,7 +407,7 @@ const tooltipMessageDisplay = computed(() => {
   }
 
   return ``
-});
+})
 
 const showTooltip = computed(() => {
   if (props.screenSize === `desktop` || props.screenSize === `tablet`) {
@@ -422,21 +424,20 @@ const showTooltip = computed(() => {
   }
 
   return false
-});
+})
 
 const isToday = computed(() => {
-  return helpers.compareDay(new Date, props.date) === 0
-});
+  return helpers.compareDay(new Date(), props.date) === 0
+})
 
 const isADisabledDay = computed(() => {
   const days = [`sunday`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`]
   const day = days[props.date.getUTCDay()]
 
   return props.options.disabledWeekDaysObject[day]
-});
+})
 
-
-const showBookingBullet = computed(() => currentBooking.value && props.belongsToThisMonth && !isDisabled.value);
+const showBookingBullet = computed(() => currentBooking.value && props.belongsToThisMonth && !isDisabled.value)
 
 const isClickable = () => {
   if (props.$refs && props.$refs.day) {
@@ -444,7 +445,7 @@ const isClickable = () => {
   }
 
   return true
-};
+}
 
 const dayClicked = (event, date) => {
   let resetCheckin = false
@@ -480,7 +481,7 @@ const dayClicked = (event, date) => {
       helpers.dayClicked(event, date)
     }
   }
-};
+}
 
 const compareEndDay = () => {
   if (props.options.endDate !== Infinity) {
@@ -488,12 +489,14 @@ const compareEndDay = () => {
   }
 
   return false
-};
+}
 
 const checkIfDisabled = () => {
   isDisabled.value =
     // If this day is equal any of the disabled dates
-    (props.sortedDisabledDates ? props.sortedDisabledDates.some((i) => helpers.compareDay(i, props.date) === 0) : null) ||
+    (props.sortedDisabledDates
+      ? props.sortedDisabledDates.some((i) => helpers.compareDay(i, props.date) === 0)
+      : null) ||
     // Or is before the start date
     helpers.compareDay(props.date, props.options.startDate) === -1 ||
     // Or is after the end date
@@ -509,17 +512,20 @@ const checkIfDisabled = () => {
       isDisabled.value = false
     }
   }
-};
+}
 
 const checkIfHighlighted = () => {
   if (props.checkIn !== null && props.checkOut !== null && isDisabled.value === false) {
-    if (helpers.isDateLessOrEquals(props.checkIn, props.date) && helpers.isDateLessOrEquals(props.date, props.checkOut)) {
+    if (
+      helpers.isDateLessOrEquals(props.checkIn, props.date) &&
+      helpers.isDateLessOrEquals(props.date, props.checkOut)
+    ) {
       isHighlighted.value = true
     } else {
       isHighlighted.value = false
     }
   }
-};
+}
 
 const disableNextDays = () => {
   if (
@@ -539,8 +545,7 @@ const disableNextDays = () => {
   if (helpers.isDateLessOrEquals(props.checkIn, props.date) && props.options.enableCheckout) {
     isDisabled.value = false
   }
-};
-
+}
 
 const fetchHighlight = () => {
   if (props.checkIn !== null && props.checkOut === null && isDisabled.value === false) {
@@ -552,48 +557,65 @@ const fetchHighlight = () => {
       isHighlighted.value = false
     }
   }
-};
+}
 
-watch(() => props.hoveringDate, fetchHighlight);
-watch(() => props.checkIn, fetchHighlight);
-watch(() => props.activeMonthIndex, () => {
-  checkIfDisabled()
-  checkIfHighlighted()
+watch(() => props.hoveringDate, fetchHighlight)
+watch(() => props.checkIn, fetchHighlight)
+watch(
+  () => props.activeMonthIndex,
+  () => {
+    checkIfDisabled()
+    checkIfHighlighted()
 
-  if (props.checkIn !== null && props.checkOut !== null) {
-    if (helpers.isDateLessOrEquals(props.checkIn, props.date) && helpers.isDateLessOrEquals(props.date, props.checkOut)) {
-      isHighlighted.value = true
-    } else {
-      isHighlighted.value = false
+    if (props.checkIn !== null && props.checkOut !== null) {
+      if (
+        helpers.isDateLessOrEquals(props.checkIn, props.date) &&
+        helpers.isDateLessOrEquals(props.date, props.checkOut)
+      ) {
+        isHighlighted.value = true
+      } else {
+        isHighlighted.value = false
+      }
+    } else if (props.checkIn !== null && props.checkOut === null) {
+      disableNextDays()
     }
-  } else if (props.checkIn !== null && props.checkOut === null) {
+  },
+)
+watch(
+  () => props.nextDisabledDate,
+  () => {
     disableNextDays()
-  }
-});
-watch(() => props.nextDisabledDate, () => {
-  disableNextDays()
-});
-
-
+  },
+)
 </script>
 
 <template>
   <div>
     <div :class="`${mainPrefix}tooltip`" v-html="tooltipMessageDisplay" v-if="showTooltip && options.hoveringTooltip" />
-    <div @click.prevent.stop="dayClicked($event, date)" :class="[
-      dayClass,
-      disabledClass,
-      checkinCheckoutClass,
-      bookingClass,
-      `${mainPrefix}month-day`,
-      { [`${prefix}today`]: isToday },
-    ]" :tabindex="tabIndex" ref="day">
+    <div
+      @click.prevent.stop="dayClicked($event, date)"
+      :class="[
+        dayClass,
+        disabledClass,
+        checkinCheckoutClass,
+        bookingClass,
+        `${mainPrefix}month-day`,
+        { [`${prefix}today`]: isToday },
+      ]"
+      :tabindex="tabIndex"
+      ref="day"
+    >
       <div :class="`${mainPrefix}month-day-wrapper`">
         <span class="day">{{ dayNumber }}</span>
         <DatePickerPrice :show="showPrice" :price="dayPrice" :symbol="priceSymbol" />
       </div>
     </div>
-    <DatePickerBookingBullet v-if="showBookingBullet" :currentBooking="currentBooking"
-      :duplicateBookingDates="duplicateBookingDates" :formatDate="formatDate" :previousBooking="previousBooking" />
+    <DatePickerBookingBullet
+      v-if="showBookingBullet"
+      :currentBooking="currentBooking"
+      :duplicateBookingDates="duplicateBookingDates"
+      :formatDate="formatDate"
+      :previousBooking="previousBooking"
+    />
   </div>
 </template>

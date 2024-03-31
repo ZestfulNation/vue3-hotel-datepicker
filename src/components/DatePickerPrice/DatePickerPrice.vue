@@ -1,7 +1,7 @@
 <script setup>
-import { inject } from 'vue';
+import { inject } from 'vue'
 
-const dayprefix = inject('dayprefix');
+const dayprefix = inject('dayprefix')
 const props = defineProps({
   show: {
     type: Boolean,
@@ -15,8 +15,7 @@ const props = defineProps({
     type: [String, null, undefined],
     default: '',
   },
-});
-
+})
 </script>
 
 <template>
