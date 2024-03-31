@@ -1,0 +1,76 @@
+/* =============================================================
+* VARIABLES
+* ============================================================*/
+$prefix: 'vhd--datepicker-';
+$prefixday: '#{$prefix}day--';
+$white: #fff;
+$black: #000;
+$gray: #424b53;
+$primary-text-color: #35343d;
+$primary-text-inverse-color: #fff;
+$lightest-gray: #f3f5f8;
+$primary-color: #0fb8ad;
+$medium-gray: #424b53;
+$light-gray: #eaeaea;
+$disabledBg: #f5f7f8;
+$disabled-color: #d8d8d8;
+$dark-gray: #2d3047;
+$box-shadow: 0 0 10px 3px rgba(red, 0.4);
+$background-color: #fff;
+
+// Bg Date when hover it
+$bgValidHoverDate: $primary-color;
+$colorValidHoverDate: $white;
+
+// Bg Date when range or valid it
+$bgRollActiveDage: $primary-color;
+$colorRollActiveDage: $white;
+
+$font-size: 16px;
+$font-small: #{$font-size * 0.875};
+$font-family: 'Source Sans Pro', sans-serif, verdana, arial;
+$font-regular: 400;
+$font-bold: 700;
+$tooltip-font-size: 11px;
+
+$width-half-day: 120px;
+$bullet-size: 4px;
+
+$tooltip-border-width: 4px;
+$tooltip-border-radius: 2px;
+$border-generic-width: 1px;
+
+/* =============================================================
+* RESPONSIVE LAYOUT HELPERS
+* ============================================================*/
+$tablet: '(min-width: 480px) and (max-width: 767px)';
+$phone: '(max-width: 479px)';
+$desktop: '(min-width: 768px)';
+$up-to-tablet: '(max-width: 767px)';
+$extra-small-screen: '(max-width: 23em)';
+
+/* =============================================================
+ * VARIABLES
+ * ============================================================*/
+
+$vhd__white: #fff !default;
+$vhd__black: #000 !default;
+$vhd__gray: #424b53 !default;
+$vhd__primary-text-color: #35343d !default;
+$vhd__lightest-gray: #f3f5f8 !default;
+$vhd__primary-color: #00ca9d !default;
+$vhd__medium-gray: #999999 !default;
+$vhd__light-gray: #d7d9e2 !default;
+$vhd__dark-gray: #2d3047 !default;
+$vhd__font-base: 16px !default;
+$vhd__font-small: 14px !default;
+$vhd__font-smaller: 12px !default;
+/* =============================================================
+  * RESPONSIVE LAYOUT HELPERS
+  * ============================================================*/
+
+$vhd__tablet: '(min-width: 480px) and (max-width: 767px)' !default;
+$vhd__phone: '(max-width: 479px)' !default;
+$vhd__desktop: '(min-width: 768px)' !default;
+$vhd__up-to-tablet: '(max-width: 767px)' !default;
+$extra-small-screen: '(max-width: 23em)' !default;
